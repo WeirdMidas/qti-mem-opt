@@ -9,7 +9,7 @@ Memory management optimization for Android platforms.
 - Fixed system common files in the file page cache, which significantly reduced the stucks caused by the key cache being swapped out due to page cache fluctuations
 - Reduce jitters under high memory pressure, adjust the trigger threshold and execution interval of lowmemorykiller, and keep the file page cache at a high level
 - Reduce stucks under high memory pressure, reduce the probability of direct memory allocation via higher extra_free_kbytes
-- Allow the system to consider having more cache than default via watermark_low.
+- Allow the system to consider having more cache than default via watermark_low
 - Disable adaptive lowmemorykiller
 - Prohibit kernel memory recycling threads running on the prime core, avoid congesting the main thread that is interacting and reduce energy consumption
 - Avoid swapping memory pages which are hard to compress to ZRAM, make the compression rate close to the ideal value of 2.8x
