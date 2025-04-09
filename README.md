@@ -1,8 +1,8 @@
-# QTI-mem-opt
+# QTI memory optimization (Fork)
 
-Memory management optimization for Android platforms.  
+Memory management optimization for Android platforms. Unlike Matt Yang's original QTI, my fork will focus on one factor: efficient RAM usage for most, if not all, situations. This means I will try to optimize as much as possible to allow the device to perform well in light, moderate multitasking, gaming, and heavy usage. At the very least, I will try to reduce OOM situations as much as possible.
 
-## Feature
+## Features 
 
 - Pure memory management optimization module, not containing other placebo and supporting all mainstream platforms
 - Customizable list of protected APPs, preventing them from being killed by Android in-kernel lowmemorykiller
