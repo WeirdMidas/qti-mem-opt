@@ -14,7 +14,7 @@ Memory management optimization for Android platforms.
 - Prohibit kernel memory recycling threads running on the prime core, avoid congesting the main thread that is interacting and reduce energy consumption
 - Avoid swapping memory pages which are hard to compress to ZRAM, make the compression rate close to the ideal value of 2.8x
 - Make Android run better through ART optimization from Master ART and some custom ROMs focused on optimization
-- Customizable ZRAM size and compression algorithm(needs kernel support), ranging from 0G to 6G
+- Customizable ZRAM size and compression algorithm(needs kernel support), ranging from 0G to 8G
 - SELinux can still be enabled
 
 ## How to use?
