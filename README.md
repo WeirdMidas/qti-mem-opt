@@ -76,6 +76,9 @@ A: ZRAM is a swap partition implementation. When the kernel reclaims memory, ina
 Q: Why not use swapfile?
 A: The read and write latency of swapfile stored in external storage such as flash or disk is several orders of magnitude higher than that of ZRAM, which will significantly reduce the fluency, so it is not used.
 
+Q. Why are you using ART optimizations?
+A. ART itself is the way for applications to run on Android. On current Androids, when ART is optimized, it consumes less and less memory. So, optimizing ART on stock ROMs can improve memory management, such as system_server, for example.
+
 Q: Which one is better, this or SimpleLMK?
 A: It is inappropriate to compare Magisk modules with kernel modules. It is more appropriate to compare SimpleLMK with LMK. SimpleLMK is triggered on direct memory allocation, and LMK is triggered when the file page cache is below the threshold after kswapd reclaim ends. SimpleLMK is triggered later, and its advantage is that it can use all memory to store active anonymous pages and file page cache as much as possible. The disadvantage is that the file page cache may have extremely low values, causing relatively long pauses. LMK is triggered earlier. Its advantage is that it actively maintains the file page cache level and is not likely to cause long pauses. Its disadvantage is that it is easily affected by cache level fluctuations, which may lead to the mistaken clearing of background cache processes. This module adjusts the execution cost of LMK and alleviates the problem that LMK is easily affected by cache level fluctuations.
 
