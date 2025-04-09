@@ -18,7 +18,7 @@ Memory management optimization for Android platforms.
 - SELinux can still be enabled
 
 ## How to use?
-- Install the module and reboot. Open the file /sdcard/Android/panel_qti_mem.txt to modify the ZRAM size and the desired compression algorithm. The changes will take effect after reboot.
+- Install the module and reboot. Open the file /sdcard/Android/panel_memcfg.txt to modify the ZRAM size and the desired compression algorithm. The changes will take effect after reboot.
 
 - Open the file /sdcard/Android/panel_adjshield.txt to add the packages of the apps you want to keep in the background. The changes will take effect after reboot.
 
