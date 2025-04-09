@@ -34,68 +34,63 @@ English version:
 
 - ARM/ARM64
 - Magisk >= 19.0
-- Android 6.0+
+- Android 11-15
 
 ## Installation
 
-- Magisk >= 19.0
-- 安装本模块重启，打开`/sdcard/Android/panel_qti_mem.txt`修改想要的ZRAM大小和压缩算法，重启后生效
-- 打开`/sdcard/Android/panel_adjshield.txt`添加需要保持在后台的APP包名，重启后生效
-- ZRAM大小默认值如下：
-  - 1-2GB内存默认开启1GB的ZRAM
-  - 3-4GB内存默认开启2GB的ZRAM
-  - 6-8GB内存默认开启4GB的ZRAM
-  - 12GB内存默认开启0GB的ZRAM
-- 目前不支持ZSWAP
-- 目前不支持用户态LMK
+- Magisk or KSU. Install the module and reboot.
+- Open the file /sdcard/Android/panel_adjshield.txt to add the packages of the apps you want to keep in the background. The changes will take effect after reboot.
+- The default ZRAM size values ​​are:
+- 1-2GB RAM: activates 300-900mb of ZRAM with swappiness of 100
+- 3-4GB RAM: activates 1gb-1.4gb of ZRAM with swappiness of 100
+- 6-8GB-12gb RAM: activates 2.1gb-2.8gb of ZRAM with swappiness of 40-20 the higher the swappiness, the lower the swappiness respectively
+- ZSWAP is not supported at the moment
+- LMK in user space is supported now and has been replaced, we no longer use the old LMK due to adaptations that, in turn: worked on LMK in user space.
 
 ## FAQ
 
-### 使用解答
+### Usage Answers
 
-Q: 这是什么，是一键全优化吗？  
-A: 这个是改善Android缓存进程管理的Magisk模块，避免过快地清除后台缓存进程并且改进低内存情况下的流畅度，不包含CPU调度优化之类的其他部分。  
+Q: What is this? Is it a one-click full optimization?
+A: This is a Magisk module that improves Android cache process management, avoids clearing background cache processes too quickly and improves fluency in low memory conditions. It does not include other parts such as CPU scheduling optimization.
 
-Q: 我的设备能够使用这个吗？  
-A: 本模块适用于Android版本>=6.0的安卓32/64位平台，不局限于高通平台。  
+Q: Can my device use this?
+A: This module is applicable to Android 32/64-bit platforms with Android version >= 6.0, not limited to Qualcomm platforms.
 
-Q: 不开启ZRAM是不是这个模块就没用了？  
-A: ZRAM控制只是本模块的一小部分功能，不开启ZRAM使用本模块也能够改进低内存情况下的流畅度。在panel文件的ZRAM项目显示`unsupported`仅表示内核不支持ZRAM，其他参数修改和缓存控制还是生效的。  
+Q: If ZRAM is not enabled, will this module be useless?
+A: ZRAM control is only a small part of the function of this module. Using this module without ZRAM can also improve fluency in low memory conditions. The display of `unsupported` in the ZRAM item of the panel file only means that the kernel does not support ZRAM. Other parameter modifications and cache control are still effective.
 
-Q: 我的设备有12GB或者16GB物理内存，还需要这个模块吗？  
-A: 在某些设备上由于高通平台缓存进程数量限制比较严格，即使可用内存很多也会出现后台缓存被清除，本模块避免过快地清除后台缓存进程使得大内存得到充分利用。  
+Q: My device has 12GB or 16GB of physical memory. Do I still need this module?
+A: On some devices, due to the strict limit on the number of cached processes on the Qualcomm platform, the background cache will be cleared even if there is a lot of available memory. This module avoids clearing the background cache process too quickly so that the large memory can be fully utilized.
 
-Q: 为什么在配置文件设置了ZRAM大小之后还是没开启ZRAM？  
-A: 如果内核没有ZRAM功能本模块是不能够添加的。大部分官方内核都支持ZRAM，第三方内核不支持ZRAM的情况多一些。  
+Q: Why is ZRAM not enabled after the ZRAM size is set in the configuration file?
+A: This module cannot be added if the kernel does not have the ZRAM function. Most official kernels support ZRAM, and third-party kernels do not support ZRAM more often.
 
-Q: SWAP使用率100%这没有问题吗？  
-A: 没有问题，不如说这是期望的结果。ZRAM是swap分区的一种实现方式，将不常用内存分页压缩存储，压缩率一般在2.8x，也就是说2.8G的ZRAM大小在物理内存占据1GB的空间，等效于多了1.8G的内存。ZRAM对于性能和耗电的影响取决于你选择开启的ZRAM大小，设置的越大需要CPU解压缩读取的概率越高，同时可在后台同时缓存的进程越多。系统流畅度与SWAP使用率没有直接关系，取决于内存回收难度和页面缓存命中率。  
+Q: Is there a problem with SWAP usage of 100%?
+A: No problem, it is better to say that this is the expected result. ZRAM is an implementation of swap partitions. It compresses and stores infrequently used memory pages. The compression rate is generally 2.8x, which means that 2.8G of ZRAM occupies 1GB of space in physical memory, which is equivalent to an additional 1.8G of memory. The impact of ZRAM on performance and power consumption depends on the ZRAM size you choose to enable. The larger the setting, the higher the probability that the CPU needs to decompress and read, and the more processes can be cached in the background at the same time. The system fluency has no direct relationship with the SWAP usage rate, but depends on the difficulty of memory recovery and the page cache hit rate.
 
-Q: 为什么后台还是会掉？  
-A: 物理内存资源是有限的，不可能满足无限的后台缓存需求。某些厂商可能额外做了后台缓存管理，例如利用LSTM预测来选择清理接下来最不可能使用的APP。如果需要保护某些APP使其免于被内核态LMK回收，可以在`AdjShield`配置文件中添加需要保护的包名，不推荐添加过多的APP避免内存回收出现困难。  
+Q: Why does the background still drop?
+A: Physical memory resources are limited and it is impossible to meet the unlimited background cache requirements. Some manufacturers may have additional background cache management, such as using LSTM prediction to select and clean up the APP that is least likely to be used next. If you need to protect some APPs from being recycled by kernel-mode LMK, you can add the package name to be protected in the `AdjShield` configuration file. It is not recommended to add too many APPs to avoid difficulties in memory recovery.
 
-Q: 为什么耗电变多了？  
-A: 缓存进程本身是不增加耗电的，更多的页面交换增加的耗电十分有限。需要注意的是保活更多后台APP的同时，这些APP并非全都处于缓存休眠的状态，可能有不少服务在后台运行消耗电量。  
+Q: Why is the power consumption increased?
+A: The cache process itself does not increase power consumption, and the power consumption increased by more page swaps is very limited. It should be noted that while keeping more background APPs alive, not all of these APPs are in cache dormancy, and there may be many services running in the background that consume power.
 
-### 技术解答
+### Technical Answer
 
-Q: `CUR_MAX_EMPTY_PROCESSES`这一限制是什么？  
-A: 有些时候并非因为内存不足导致进程被杀，查看logcat注意到缓存进程居然有数量上限，数量>=31就回收。这个缓存进程数量上限来自于安卓ActivityManager的`max_cached_processes`，它被初始化为`CUR_MAX_EMPTY_PROCESSES`的一半。这个默认值一般存储在系统框架中无法更改，在高通平台可以通过`ro.vendor.qti.sys.fw.bg_apps_limit`来更改此常量。在较老的平台此值存储在系统分区的`build.prop`中，在较新的平台它存储在`perfconfigstore.xml`。此模块借助Magisk的`MagicMount`可以实现对高通平台缓存进程数量上限的更改。  
+Q: What is the use of pinning system commonly used files in the file page cache?
+A: In Google's [Android performance tuning document](https://source.android.com/devices/tech/debug/jank_jitter#page-cache), it is mentioned that the jitter of the page cache under low memory conditions is the main cause of long lags. In practice, it manifests as a pause of more than 100ms when returning to the desktop, which is particularly obvious in the gesture animation of returning to the desktop. Generally speaking, the Android framework's `PinnerService` has fixed commonly used files in memory, but devices on some platforms, such as OnePlus 7Pro, do not have this service, or the coverage of the fixed memory is not large enough, resulting in key page cache jitters. This module fixes most of the system's commonly used files in the file page cache to make up for the imperfections of the existing settings.
 
-Q: 将系统常用文件固定在文件页面缓存有什么用？  
-A: 在谷歌的[安卓性能调优文档](https://source.android.com/devices/tech/debug/jank_jitter#page-cache)，提到了低内存情况下页面缓存出现颠簸是长卡顿的主要原因，它在实际中表现为返回桌面时出现100ms以上的停顿，在返回桌面手势动画中尤为明显。一般来说安卓框架的`PinnerService`已经把常用文件固定在内存中，但是某些平台的设备比如一加7Pro并没有这一服务，或者已固定在内存的覆盖范围不够大导致仍然出现关键页面缓存颠簸。此模块将绝大多数系统常用文件固定在文件页面缓存，弥补已有设置的不完善之处。  
+Q: How to prevent specific apps from being cleared by Android kernel-mode LMK?
+A: Even if the LMK trigger threshold is increased and the SWAP space is increased, some key apps may still not be able to survive in the background all the time, not to mention wanting to keep large games and commonly used chat software alive at the same time on devices with less than 4GB of physical memory. In the previous solution, the Xposed framework is needed to keep the specified APP alive, but some people don't like the Xposed framework (such as me). The Android system framework itself or notifies the user-mode LMKD to call the `procfs` interface to change the APP's `oom_score_adj`. The kernel-mode LMK intervenes when the page cache is insufficient to terminate the process with the highest `oom_score_adj`. The `AdjShield` of this module regularly traverses `procfs` to match the APP package name that needs to be protected, intercepts the write operation to its `oom_score_adj`, and ensures that the APP that needs to be protected will not be the first to be terminated by the kernel-mode LMK (including simpleLMK). The `oom_score_adj` of the protected APP is fixed at 0. The interval of regular traversal is set to 2 minutes, and the time consumption of each traversal is optimized to be controlled within 40ms (Cortex-A55@0.8G), which will hardly cause additional burden on battery life and performance.
 
-Q: 防止特定APP被安卓内核态LMK清除是如何做到的？  
-A: 即使调高LMK触发阈值以及加大SWAP空间，某些关键APP可能仍然无法一直在后台存活，更不用说在低于4GB物理内存的设备上想要同时保活大型游戏和常用聊天软件了。在以往的解决方法中，需要Xposed框架实现对指定APP的保活，但是Xposed框架某些人并不喜欢(比如我)。安卓系统框架自身或者通知用户态LMKD调用`procfs`接口更改APP的`oom_score_adj`，内核态LMK在页面缓存不足介入终止`oom_score_adj`最高的进程。本模块的`AdjShield`定期遍历`procfs`匹配需要保护的APP包名，拦截对它的`oom_score_adj`的写入操作，确保需要保护的APP不会是内核态LMK(也包含simpleLMK)最先被终止的。受保护的APP的`oom_score_adj`被固定在0。定期遍历的间隔被设置在2分钟，每次遍历的耗时经过优化控制在40ms(Cortex-A55@0.8G)以内，几乎不会给续航和性能造成额外负担。  
+Q: What is the relationship between ZRAM and swap?
+A: ZRAM is a swap partition implementation. When the kernel reclaims memory, inactive anonymous memory pages are swapped into a block device, which is called swap. This block device can be an independent swap partition, a swapfile, or ZRAM. ZRAM compresses the swapped pages and puts them into memory, so it has several orders of magnitude lower read and write latency than traditional swap methods, and has better performance.
 
-Q: ZRAM和swap是什么关系？  
-A: ZRAM是swap分区的一种实现方式。在内核回收内存时，将非活动的匿名内存页换入块设备，被称为swap。这个块设备可以是独立的swap分区，可以是swapfile，也可以是ZRAM。ZRAM将换入的页面压缩后放到内存，所以相比传统的swap方式在读写延迟上低几个数量级，性能更好。  
+Q: Why not use swapfile?
+A: The read and write latency of swapfile stored in external storage such as flash or disk is several orders of magnitude higher than that of ZRAM, which will significantly reduce the fluency, so it is not used.
 
-Q: 为什么不使用swapfile？  
-A: 存储在闪存或者磁盘这样外置存储的swapfile，读写延迟比ZRAM高几个数量级，这会显著降低流畅度所以不采用。  
-
-Q: 这个跟SimpleLMK哪个好？  
-A: 把Magisk模块跟内核模块对比是不合适的，把SimpleLMK跟LMK对比更加合适。SimpleLMK触发在直接内存分配，LMK触发在kswapd回收结束之后文件页面缓存低于阈值。SimpleLMK触发较晚，优点在于可以尽可能利用全部内存存放活动的匿名页和文件页面缓存，缺点在于文件页面缓存可能出现极低值造成比较长的停顿。LMK触发较早，优点在于主动地维持文件页面缓存水平不容易造成较长的停顿，缺点在于容易受缓存水平波动导致误清除后台缓存进程。本模块调整了LMK的执行代价，缓解了LMK容易受缓存水平波动的问题。  
+Q: Which one is better, this or SimpleLMK?
+A: It is inappropriate to compare Magisk modules with kernel modules. It is more appropriate to compare SimpleLMK with LMK. SimpleLMK is triggered on direct memory allocation, and LMK is triggered when the file page cache is below the threshold after kswapd reclaim ends. SimpleLMK is triggered later, and its advantage is that it can use all memory to store active anonymous pages and file page cache as much as possible. The disadvantage is that the file page cache may have extremely low values, causing relatively long pauses. LMK is triggered earlier. Its advantage is that it actively maintains the file page cache level and is not likely to cause long pauses. Its disadvantage is that it is easily affected by cache level fluctuations, which may lead to the mistaken clearing of background cache processes. This module adjusts the execution cost of LMK and alleviates the problem that LMK is easily affected by cache level fluctuations.
 
 ## Credit
 
