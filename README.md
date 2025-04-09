@@ -15,10 +15,22 @@ Memory management optimization for Android platforms.
 - Customizable ZRAM size and compression algorithm(needs kernel support), ranging from 0G to 6G
 - SELinux can still be enabled
 
-h swappiness of 100
-- 6-8GB-12gb RAM: activates 2.1gb-2.8gb of ZRAM with swappiness of 40-20 the higher the swappiness, the lower the swappiness respectively
+## How to use?
+- Install the module and reboot. Open the file /sdcard/Android/panel_qti_mem.txt to modify the ZRAM size and the desired compression algorithm. The changes will take effect after reboot.
+
+- Open the file /sdcard/Android/panel_adjshield.txt to add the packages of the apps you want to keep in the background. The changes will take effect after reboot.
+
+- The default ZRAM size values ​​are:
+
+- 1-2GB RAM: Enables 300-900mb of ZRAM with swappiness of 100.
+
+- 3-4GB RAM: Enables 1gb-1.4gb of ZRAM with swappiness of 100.
+
+- 6-8GB-12gb RAM: Enables 2.1-2.8gb of ZRAM with swappiness of 40-20.
+
 - ZSWAP is not supported at the moment
-- LMK in user space is supported now and has been replaced, we no longer use the old LMK due to adaptations that, in turn: worked on LMK in user space.
+
+- Userspace LMK is supported, it is the current LMK, abandoning the optimizations with the old LMK.
 
 ## FAQ
 
