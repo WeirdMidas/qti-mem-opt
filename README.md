@@ -43,7 +43,7 @@ Q: What is this? Is it a one-click full optimization?
 A: This is a Magisk module that improves Android cache process management, avoids clearing background cache processes too quickly and improves fluency in low memory conditions. It does not include other parts such as CPU scheduling optimization.
 
 Q: Can my device use this?
-A: This module is applicable to Android 32/64-bit platforms with Android version >= 6.0, not limited to Qualcomm platforms.
+A: This module is applicable to Android 32/64-bit platforms with Android version >= 11.0, not limited to Qualcomm platforms.
 
 Q: If ZRAM is not enabled, will this module be useless?
 A: ZRAM control is only a small part of the function of this module. Using this module without ZRAM can also improve fluency in low memory conditions. The display of `unsupported` in the ZRAM item of the panel file only means that the kernel does not support ZRAM. Other parameter modifications and cache control are still effective.
