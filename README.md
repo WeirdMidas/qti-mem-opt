@@ -10,6 +10,7 @@ Memory management optimization for Android platforms.
 - Reduce jitters under high memory pressure, adjust the trigger threshold of lowmemorykiller, and keep the file page cache at a high level
 - Reduce stucks under high memory pressure, reduce the probability of direct memory allocation via higher extra_free_kbytes
 - Allow the system to consider having more cache than default via watermark_scale_factor
+- Reduce stutters and jitters that occur in common use and OOM situations with simple adjustments to statistics, dumps, etc
 - Disable adaptive lowmemorykiller
 - Prohibit kernel memory recycling threads running on the prime core, avoid congesting the main thread that is interacting and reduce energy consumption
 - Avoid swapping memory pages which are hard to compress to ZRAM, make the compression rate close to the ideal value of 2.8x
