@@ -7,7 +7,7 @@ Memory management optimization for Android platforms.
 - Pure memory management optimization module, not containing other placebo and supporting all mainstream platforms
 - Customizable list of protected APPs, preventing them from being killed by Android in-kernel lowmemorykiller
 - Fixed system common files in the file page cache, which significantly reduced the stucks caused by the key cache being swapped out due to page cache fluctuations
-- Reduce jitters under high memory pressure, adjust the trigger threshold and execution interval of lowmemorykiller, and keep the file page cache at a high level
+- Reduce jitters under high memory pressure, adjust the trigger threshold of lowmemorykiller, and keep the file page cache at a high level
 - Reduce stucks under high memory pressure, reduce the probability of direct memory allocation via higher extra_free_kbytes
 - Allow the system to consider having more cache than default via watermark_scale_factor
 - Disable adaptive lowmemorykiller
