@@ -77,6 +77,7 @@ Q: Why not use swapfile?
 A: The read and write latency of swapfile stored in external storage such as flash or disk is several orders of magnitude higher than that of ZRAM, which will significantly reduce the fluency, so it is not used.
 
 Q. Why are you using ART optimizations?
+
 A. ART itself is the way for applications to run on Android. On current Androids, when ART is optimized, it consumes less and less memory. So, optimizing ART on stock ROMs can improve memory management, such as system_server, for example.
 
 Q: Which one is better, this or SimpleLMK?
