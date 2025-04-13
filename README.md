@@ -8,6 +8,7 @@ Memory management optimization for Android platforms.
 - Fixed system common files in the file page cache, which significantly reduced the stucks caused by the key cache being swapped out due to page cache fluctuations
 - Avoid stutters and jitters in high-load situations. Avoid micro-lags that occur when the device is using a lot of memory, maintain responsiveness even under pressure
 - Reduce jitters under high memory pressure, adjust the trigger threshold of lowmemorykiller daemon, and keep the file page cache at a high level
+- lmkd behavior optimization, focus on being more precise with memory pressures, and in turn: maintain overall consistency and kill processes based on precise choices even without PSI installed in the kernel.
 - Reduce stucks under high memory pressure, reduce the probability of direct memory allocation via higher extra_free_kbytes
 - Disable adaptive lowmemorykiller daemon
 - Prohibit kernel memory recycling threads running on the prime core, avoid congesting the main thread that is interacting and reduce energy consumption
@@ -30,7 +31,8 @@ Memory management optimization for Android platforms.
 
 - Magisk or KSU, preferably the most updated version
 - Install this module and reboot, open `/sdcard/Android/panel_memcfg.txt` to modify the parameters, such as disabling ZRAM to put a swapfile in its place, activating hybrid swap (if your processor is a snapdragon), changing the size and compression algorithm of ZRAM, and this will take effect after reboot
-- Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot. - The default ZRAM size is as follows:
+- Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot.
+- The default ZRAM size is as follows:
   - 2GB RAM 900mb ZRAM enabled by default
   - 3-4 GB RAM, 1.4gb ZRAM enabled by default
   - 2.1GB ZRAM enabled by default for 6-8GB memory
