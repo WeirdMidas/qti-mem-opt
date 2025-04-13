@@ -25,16 +25,15 @@ Memory management optimization for Android platforms.
 
 ## Installation
 
-- Magisk >= 19.0
-- 安装本模块重启，打开`/sdcard/Android/panel_qti_mem.txt`修改想要的ZRAM大小和压缩算法，重启后生效
-- 打开`/sdcard/Android/panel_adjshield.txt`添加需要保持在后台的APP包名，重启后生效
-- ZRAM大小默认值如下：
-  - 1-2GB内存默认开启1GB的ZRAM
-  - 3-4GB内存默认开启2GB的ZRAM
-  - 6-8GB内存默认开启4GB的ZRAM
-  - 12GB内存默认开启0GB的ZRAM
-- 目前不支持ZSWAP
-- 目前不支持用户态LMK
+- Magisk or KSU, preferably the most updated version
+- Install this module and reboot, open `/sdcard/Android/panel_memcfg.txt` to modify the parameters, such as disabling ZRAM to put a swapfile in its place, activating hybrid swap (if your processor is a snapdragon), changing the size and compression algorithm of ZRAM, and this will take effect after reboot
+- Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot. - The default ZRAM size is as follows:
+  - 2GB RAM 900mb ZRAM enabled by default, with swappiness of 100
+  - 3-4 GB RAM, 1.4gb ZRAM enabled by default, with swappiness of 100
+  - 2.1GB ZRAM enabled by default for 6-8GB memory, with swappiness of 40
+  - 12 GB RAM with 2.8GB ZRAM enabled by default, with swappiness of 20
+- ZSWAP is not supported currently, after all, we have hybrid swap that does almost the same thing, but if many users want it, I can add ZSWAP support, but only if there are users who use this scheme
+- The LMK in userspace is the LMK used for optimizations, old LMK is no longer supported by the module
 
 ## FAQ
 
