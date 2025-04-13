@@ -31,10 +31,10 @@ Memory management optimization for Android platforms.
 - Magisk or KSU, preferably the most updated version
 - Install this module and reboot, open `/sdcard/Android/panel_memcfg.txt` to modify the parameters, such as disabling ZRAM to put a swapfile in its place, activating hybrid swap (if your processor is a snapdragon), changing the size and compression algorithm of ZRAM, and this will take effect after reboot
 - Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot. - The default ZRAM size is as follows:
-  - 2GB RAM 900mb ZRAM enabled by default, with swappiness of 100
-  - 3-4 GB RAM, 1.4gb ZRAM enabled by default, with swappiness of 100
-  - 2.1GB ZRAM enabled by default for 6-8GB memory, with swappiness of 40-20
-  - 12 GB RAM with 2.8GB ZRAM enabled by default, with swappiness of 20
+  - 2GB RAM 900mb ZRAM enabled by default
+  - 3-4 GB RAM, 1.4gb ZRAM enabled by default
+  - 2.1GB ZRAM enabled by default for 6-8GB memory
+  - 12 GB RAM with 2.8GB ZRAM enabled by default
   - Swapfile and Hybrid Swap will come disabled/set to 0, requiring user activation for them to work
 - ZSWAP is not supported currently, after all, we have hybrid swap that does almost the same thing, but if many users want it, I can add ZSWAP support, but only if there are users who use this scheme
 - The LMK in userspace is the LMK used for optimizations, old LMK is no longer supported by the module
