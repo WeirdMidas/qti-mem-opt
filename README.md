@@ -14,8 +14,10 @@ Memory management optimization for Android platforms.
 - Reduce swapping costs and unnecessary situations as much as possible. If swapping is occurring, be as efficient as possible and allow above-average throughput for swapping
 - Avoid swapping memory pages which are hard to compress to ZRAM, make the compression rate close to the ideal value of 3x
 - Customizable ZRAM size and compression algorithm(needs kernel support), goes from 0GB to 8GB
+- Customizable swapfile size. Going from 0GB to 3GB
 - SELinux can still be enabled
-- Introduce Hybrid Swap! A memory management technique that combines swapfile and ZRAM with Qualcomm's PPR. Allowing to increase effective memory by up to 17% with just 512mb of swapfile and with swapping costs reduced by up to 27%, and even better: it prevents storage from suffering, allowing to keep its useful life up to date! However, it is only for phones with snapdragon processors. Credits to: unintellectual-hypothesis @ github.
+- Introduce Hybrid Swap! A memory management technique that combines swapfile and ZRAM with Qualcomm's PPR. Allowing to increase effective memory by up to 17% with just 512mb of swapfile and with swapping costs reduced by up to 27%, and even better: it prevents storage from suffering, allowing to keep its useful life up to date! However, it is only for phones with snapdragon processors. Credits to: unintellectual-hypothesis @ github
+- Prevent apps from being swapped out or killed too quickly. Allowing browsers like Brave to function even in memory-limited situations
 
 ## Requirement
 
@@ -32,6 +34,7 @@ Memory management optimization for Android platforms.
   - 3-4 GB RAM, 1.4gb ZRAM enabled by default, with swappiness of 100
   - 2.1GB ZRAM enabled by default for 6-8GB memory, with swappiness of 40
   - 12 GB RAM with 2.8GB ZRAM enabled by default, with swappiness of 20
+  - Swapfile and Hybrid Swap will come disabled/set to 0, requiring user activation for them to work
 - ZSWAP is not supported currently, after all, we have hybrid swap that does almost the same thing, but if many users want it, I can add ZSWAP support, but only if there are users who use this scheme
 - The LMK in userspace is the LMK used for optimizations, old LMK is no longer supported by the module
 - In the future I plan to add support for LMKD with PSI. For now I only support the default minfree (which is what I have in my kernel).
