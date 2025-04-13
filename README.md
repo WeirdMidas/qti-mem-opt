@@ -34,6 +34,7 @@ Memory management optimization for Android platforms.
   - 12 GB RAM with 2.8GB ZRAM enabled by default, with swappiness of 20
 - ZSWAP is not supported currently, after all, we have hybrid swap that does almost the same thing, but if many users want it, I can add ZSWAP support, but only if there are users who use this scheme
 - The LMK in userspace is the LMK used for optimizations, old LMK is no longer supported by the module
+- In the future I plan to add support for LMKD with PSI. For now I only support the default minfree (which is what I have in my kernel).
 
 ## FAQ
 
