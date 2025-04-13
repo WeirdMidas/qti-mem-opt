@@ -36,6 +36,7 @@ Memory management optimization for Android platforms.
   - 2.1GB ZRAM enabled by default for 6-8GB memory
   - 12 GB RAM with 2.8GB ZRAM enabled by default
   - Swapfile and Hybrid Swap will come disabled/set to 0, requiring user activation for them to work
+  - Processors other than Snapdragon such as MediaTek can use hybrid swap, but in its most "basic" form. This means that the technique will not be 100% effective due to the lack of Qualcomm's PPR, providing only the basic swapfile
 - ZSWAP is not supported currently, after all, we have hybrid swap that does almost the same thing, but if many users want it, I can add ZSWAP support, but only if there are users who use this scheme
 - The LMK in userspace is the LMK used for optimizations, old LMK is no longer supported by the module
 - In the future I plan to add support for LMKD with PSI. For now I only support the default minfree (which is what I have in my kernel).
