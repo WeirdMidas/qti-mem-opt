@@ -1,10 +1,8 @@
-# QTI-mem-opt
+# qti-mem-opt
 
 Memory management optimization for Android platforms.  
 
 ## Feature
-
-English version:
 - Pure memory management optimization module, not containing other placebo and supporting all mainstream platforms
 - Customizable list of protected APPs, preventing them from being killed by Android in-userspace lowmemorykiller
 - Fixed system common files in the file page cache, which significantly reduced the stucks caused by the key cache being swapped out due to page cache fluctuations
