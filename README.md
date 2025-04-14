@@ -12,7 +12,7 @@ Memory management optimization for Android platforms.
 - Disable adaptive lowmemorykiller daemon
 - Prohibit kernel memory recycling threads running on the prime core, avoid congesting the main thread that is interacting and reduce energy consumption
 - Reduce swapping costs and unnecessary situations as much as possible. If swapping is occurring, be as efficient as possible and allow above-average throughput for swapping
-- Avoid swapping memory pages which are hard to compress to ZRAM, make the compression rate close to the ideal value of 3x
+- Avoid swapping memory pages which are hard to compress to ZRAM, make the compression rate close to the ideal value of 2.8x
 - Use the UFFD garbage collector, allowing to reduce the chances of page faults and allowing ZRAM to compress better to an acceptable level, without increasing the cost of swapping
 - Introduce Hybrid Swap! A memory management technique that combines swapfile and ZRAM with Qualcomm's PPR. Allowing to increase effective memory by up to 17% with just 512mb of swapfile and with swapping costs reduced by up to 27%, and even better: it prevents storage from suffering, allowing to keep its useful life up to date! However, it is only for phones with snapdragon processors. Credits to: unintellectual-hypothesis @ github
 - Prevent apps from being swapped out or killed too quickly. Allowing browsers like Brave to function even in memory-limited situations
