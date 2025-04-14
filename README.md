@@ -50,27 +50,35 @@ Memory management optimization for Android platforms.
 ### Use Answers
 
 Q: What is this? What is the purpose of this fork compared to Matt Yang's original module?
+
 A: This module for magisk and KSU is a re-adaptation of Matt Yang's module, with the focus of not only improving Android's cache management, but also improving the overall memory management of the device. Overall, its focus is to improve Android's memory management intelligence, and in turn: Allow the device to perform better in most, if not all, memory usage situations (light multitasking, moderate multitasking, gaming, etc.), while maintaining consistency even in low memory situations. It does not include other parts, such as CPU scheduling optimization.
 
 Q: Will my device work with this?
+
 A: This module is applicable to 32/64-bit Android platforms with Android 10-15, not limited to Qualcomm platforms.
 
 Q: If ZRAM is not enabled, will this module be useless?
+
 A: ZRAM control is only a small part of the module's functionality. Using this module without ZRAM enabled can also improve performance in low memory situations. The display of `unsupported` in the ZRAM item of the panel file only means that the kernel does not support ZRAM. Other parameter modifications and cache control are still effective.
 
 Q: My device has 12GB or 16GB of physical memory. Do I still need this module?
+
 A: On some devices, due to the strict limit on the number of cache processes, the background cache may be cleared even if there is a lot of memory available. This module prevents the background cache process from clearing too quickly, so that the large memory can be fully utilized.
 
 Q: Why is ZRAM not enabled after setting the ZRAM size in the configuration file?
+
 A: If the kernel does not have the ZRAM function, this module cannot be added. Most official kernels support ZRAM, but third-party kernels usually do not support ZRAM.
 
 Q: Is it acceptable to have 100% SWAP usage?
+
 A: No problem, this is the expected result. ZRAM is an implementation of swap partitioning. It compresses and stores infrequently used memory pages. The compression ratio is typically 2.8x, which means that 2.8G of ZRAM takes up 1GB of physical memory, which is equivalent to an additional 1.8G of memory. The impact of ZRAM on performance and power consumption depends on the size of ZRAM you choose to enable. The higher the setting, the more likely the CPU will need to decompress and read, and the more processes can be cached in the background at the same time. System fluency is not directly related to SWAP usage, but depends on the difficulty of memory reclaiming and the page cache hit rate.
 
 Q: Why does the background still crash?
+
 A: Physical memory resources are limited and cannot meet the unlimited background cache requirements. Some vendors may have additional background cache management, such as using LSTM prediction to select and purge applications that are least likely to be used next. If you need to protect some applications from being recycled by kernel-mode LMK, you can add the package names that need to be protected in the `AdjShield` configuration file. It is not recommended to add too many applications to avoid difficulties in memory recycling.
 
 Q: Does the module reduce or increase power consumption?
+
 A: It depends. In general, I improved Matt Yang's engineering and made swapping a "fallback" in general. In other words, the system avoids using swapping frequently in light use, which saves energy. But when necessary, it uses swapping with a higher throughput than average, but respects Android's limits and scales usage as the device uses memory. In general, consumption may increase or decrease depending on your use of apps. Swapping scales with usage, being more intelligent than Android itself, even Android 15.
 
 ### Technical Answer
@@ -91,14 +99,20 @@ Q: Why does the fork use swapfile and hybrid swap in general, unlike the origina
 
 A: Even with the disadvantages of swapfile by itself, it is a good fit for having a "fallback" memory. In this case, in situations where the device needs memory, it can allocate less used data in the swapfile. Due to this, hybrid swap is used, even with the limitation of working only on Qualcomm devices because only them have PPR (per-process reclaim), hybrid swap allows the user to reduce swapping costs and storage degradation by up to 28%, which is even higher than ZSWAP itself, which reduces it by only 26%. This generally allows users to use the swapfile as fallback memory, and makes swapping generally less expensive, resulting in a higher throughput device overall. If you want the source, here it is: https://ieeexplore.ieee.org/document/8478216
 
+Q: Why is the swapfile only in /data? And not in /data/swap?
+
+A: Ironically, placing the swapfile only in the /data directory reduces the latency of accessing the swapfile by up to 50%, and also allows compatibility on devices with more restrictive SElinux. Overall, it improves the latency of the swapfile and prevents the storage from being used more than it should be; overall, it's all gains and no losses.
+
 Q: Which is better, LMKD minfree, LMKD PSI, or SimpleLMK?
 
 A: It is inappropriate to compare Magisk modules to kernel modules. It is more appropriate to compare SimpleLMK to LMKD minfree or PSI. SimpleLMK is triggered on direct memory allocation, and LMKD in minfree format is triggered when the file page cache is below the threshold after kswapd has finished reclaiming, while LMKD in PSI format is much more efficient and better at detecting pressure, because it uses VMPRESSURE better than minfree itself when using CPU usage as a basis (based on ZRAM, seeing if it is compressing too much for the CPU), amount of user apps and I/O, allowing LMKD to make decisions based on respecting the user and in their usage, like in games. Compared to the three formats, I would put it this way: SimpleLMK > LMKD PSI > LMKD Minfree in terms of general use without needing modifications, of course, a LMKD Minfree may end up being better, just like the LMKD PSI, but all of this is just a matter of optimization.
 
 Q: What is UFFD and why has it reduced ZRAM usage?
+
 A: UFFD is a garbage collector that has been around since Linux 4.4. Its function is to ensure that unused pages are cleaned up. It is not used on all devices because it is complex and can generate additional overhead. However, on current Android devices, the UFFD userspace function is added, allowing for a significant reduction in overhead. The reason ZRAM is used less because of this is because these unused pages would be sent to ZRAM. This is generally more beneficial because it prevents kswapd from working too hard, allowing swapping to be more effective by having "cleaner" pages to use.
 
 Q: Why don't you use ZRAM Deduplication?
+
 A: Deduplication by itself is very CPU-intensive, draining a lot of battery and affecting performance in CPU-hungry games. Because of this, I will EITHER leave ZRAM deduplication as an optional (i.e. user-enabled) feature, OR not use it if I can get more effective results than relying on deduplication, it just depends on my focus.
 
 ## Credit
