@@ -17,7 +17,7 @@ Memory management optimization for Android platforms.
 - Introduce Hybrid Swap! A memory management technique that combines swapfile and ZRAM with Qualcomm's PPR. Allowing to increase effective memory by up to 17% with just 512mb of swapfile and with swapping costs reduced by up to 27%, and even better: it prevents storage from suffering, allowing to keep its useful life up to date! However, it is only for phones with snapdragon processors. Credits to: unintellectual-hypothesis @ github
 - Prevent apps from being swapped out or killed too quickly. Allowing browsers like Brave to function even in memory-limited situations
 - Customizable ZRAM size and compression algorithm(needs kernel support), goes from 0GB to 8GB
-- Customizable swapfile size. Going from 0GB to 3GB
+- Customizable swapfile size. Going from 0GB to 3GB. But you need hybrid swap active. Where in non-snapdragon phones, the hybrid swap will be just swapfile + zram, while in snapdragon it will be swapfile + zram + ppr
 - SELinux can still be enabled
 
 ## Requirement
@@ -70,8 +70,8 @@ A: No problem, this is the expected result. ZRAM is an implementation of swap pa
 Q: Why does the background still crash?
 A: Physical memory resources are limited and cannot meet the unlimited background cache requirements. Some vendors may have additional background cache management, such as using LSTM prediction to select and purge applications that are least likely to be used next. If you need to protect some applications from being recycled by kernel-mode LMK, you can add the package names that need to be protected in the `AdjShield` configuration file. It is not recommended to add too many applications to avoid difficulties in memory recycling.
 
-Q: Why does the power consumption increase?
-A: The caching process itself does not increase power consumption, and the increased power consumption due to more page swaps is very limited. It is worth noting that although more background applications are kept active, not all of them are in a cache dormancy state, and there may be many services running in the background that consume power.
+Q: Does the module reduce or increase power consumption?
+A: It depends. In general, I improved Matt Yang's engineering and made swapping a "fallback" in general. In other words, the system avoids using swapping frequently in light use, which saves energy. But when necessary, it uses swapping with a higher throughput than average, but respects Android's limits and scales usage as the device uses memory. In general, consumption may increase or decrease depending on your use of apps. Swapping scales with usage, being more intelligent than Android itself, even Android 15.
 
 ### Technical Answer
 
