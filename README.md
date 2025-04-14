@@ -31,7 +31,7 @@ Memory management optimization for Android platforms.
 - Magisk or KSU, preferably the most updated version
 - Install this module and reboot, open `/sdcard/Android/panel_memcfg.txt` to modify the parameters, such as disabling ZRAM to put a swapfile in its place, activating hybrid swap (if your processor is a snapdragon), changing the size and compression algorithm of ZRAM, and this will take effect after reboot
 - Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot.
-- The default ZRAM size is as follows:
+- The default ZRAM size (It's not exactly 0gb to 8gb, it's more focused on swapcache, because memlimit stopped working on current androids. So 8gb of zram would give 2880mb, for example) is as follows:
   - 2GB RAM 900mb ZRAM enabled by default
   - 3-4 GB RAM, 1.4gb ZRAM enabled by default
   - 2.1GB ZRAM enabled by default for 6-8GB memory
