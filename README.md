@@ -33,11 +33,12 @@ Memory management optimization for Android platforms.
 - Install this module and reboot, open `/sdcard/Android/panel_memcfg.txt` to modify the parameters, such as disabling ZRAM to put a swapfile in its place, activating hybrid swap (if your processor is a snapdragon), changing the size and compression algorithm of ZRAM, and this will take effect after reboot
 - Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot.
 - ZRAM values ​​are based on AOSP ROMs. This means that in turn, the RAM values ​​will be between half of the fixed RAM of your device, such as:
-  - 2GB of RAM gets 1GB of ZRAM by default.
-  - 4GB of RAM gets 2GB of ZRAM by default.
-  - 6GB of RAM gets 3GB of ZRAM by default.
-  - 8GB of RAM gets 4GB of ZRAM by default.
-  - 12GB or more gets 6GB of ZRAM by default.
+  - 2GB of RAM gets 1GB of ZRAM by default
+  - 3GB of RAM gets 1.5GB of ZRAM by default
+  - 4GB of RAM gets 2GB of ZRAM by default
+  - 6GB of RAM gets 3GB of ZRAM by default
+  - 8GB of RAM gets 4GB of ZRAM by default
+  - 12GB or more gets 6GB of ZRAM by default
   - Swapfile and Hybrid Swap will come disabled/set to 0, requiring user activation for them to work
   - Processors other than Snapdragon such as MediaTek can use hybrid swap, but in its most "basic" form. This means that the technique will not be 100% effective due to the lack of Qualcomm's PPR, providing only the basic swapfile
 - ZSWAP is not supported currently, after all, we have hybrid swap that does almost the same thing, but if many users want it, I can add ZSWAP support, but only if there are users who use this scheme
