@@ -76,9 +76,11 @@ A: The caching process itself does not increase power consumption, and the incre
 ### Technical Answer
 
 Q: What is the use of pinning commonly used files by the system to the file page cache?
+
 A: In Google's [Android Performance Tuning document](https://source.android.com/devices/tech/debug/jank_jitter#page-cache), it is mentioned that page cache jitter under low memory conditions is the main cause of long delays. In practice, this manifests itself as a pause of more than 100ms when returning to the desktop, which is particularly evident in the animation of the return to the desktop gesture. Generally speaking, the Android framework's `PinnerService` pins commonly used files to memory, but devices on some platforms, such as the OnePlus 7Pro, do not have this service, or the pinned memory footprint is not large enough, resulting in significant page cache jitters. This module pins most of the commonly used files by the system to the file page cache to compensate for the imperfections of the existing configuration.
 
 Q: How to prevent specific applications from being cleaned up by the Android kernel-mode LMK?
+
 A: Even if the LMK activation threshold is increased and the SWAP space is increased, some important applications may not be able to survive in the background all the time, not to mention the need to keep large games and commonly used chat software active at the same time on devices with less than 4 GB of physical memory. In the previous solution, the Xposed framework was required to keep the specified application active, but some people don't like the Xposed framework (like me). The Android system framework itself notifies the user-mode LMKD to call the `procfs` interface and change the `oom_score_adj` of the application. The kernel-mode LMK intervenes when the page cache is insufficient to kill the process with the highest `oom_score_adj`. The `AdjShield` of this module regularly traverses `procfs` to match the package name of the APP that needs to be protected, intercepts the write operation to its `oom_score_adj`, and ensures that the APP that needs to be protected is not the first one to be terminated by the kernel-mode LMK (including simpleLMK). The `oom_score_adj` of the protected APP is fixed to 0. The regular traversal interval is set to 2 minutes, and the time consumption of each traversal is optimized to be controlled within 40ms (Cortex-A55@0.8G), which is unlikely to cause additional overhead on battery life and performance.
 
 Q: What is the relationship between ZRAM and swap?
@@ -86,11 +88,15 @@ Q: What is the relationship between ZRAM and swap?
 A: ZRAM is an implementation of swap partition. When the kernel reclaims memory, inactive anonymous memory pages are swapped to a block device, called swap. This block device can be an independent swap partition, a swap file, or ZRAM. ZRAM compresses swapped pages and places them in memory, which makes it several orders of magnitude lower in read and write latency than traditional swapping methods, in addition to offering better performance.
 
 Q: Why does the fork use swapfile and hybrid swap in general, unlike the original module?
+
 A: Even with the disadvantages of swapfile by itself, it is a good fit for having a "fallback" memory. In this case, in situations where the device needs memory, it can allocate less used data in the swapfile. Due to this, hybrid swap is used, even with the limitation of working only on Qualcomm devices because only them have PPR (per-process reclaim), hybrid swap allows the user to reduce swapping costs and storage degradation by up to 28%, which is even higher than ZSWAP itself, which reduces it by only 26%. This generally allows users to use the swapfile as fallback memory, and makes swapping generally less expensive, resulting in a higher throughput device overall.
 
 Q: Which is better, LMKD minfree, LMKD PSI, or SimpleLMK?
 
 A: It is inappropriate to compare Magisk modules to kernel modules. It is more appropriate to compare SimpleLMK to LMKD minfree or PSI. SimpleLMK is triggered on direct memory allocation, and LMKD in minfree format is triggered when the file page cache is below the threshold after kswapd has finished reclaiming, while LMKD in PSI format is much more efficient and better at detecting pressure. Compared to the three formats, I would put it this way: SimpleLMK > LMKD PSI > LMKD Minfree in terms of general use without needing modifications, of course, a LMKD Minfree may end up being better, just like the LMKD PSI, but all of this is just a matter of optimization.
+
+Q: What is UFFD and why has it reduced ZRAM usage?
+A: UFFD is a garbage collector that has been around since Linux 4.4. Its function is to ensure that unused pages are cleaned up. It is not used on all devices because it is complex and can generate additional overhead. However, on current Android devices, the UFFD userspace function is added, allowing for a significant reduction in overhead. The reason ZRAM is used less because of this is because these unused pages would be sent to ZRAM. This is generally more beneficial because it prevents kswapd from working too hard, allowing swapping to be more effective by having "cleaner" pages to use.
 
 ## Credit
 
