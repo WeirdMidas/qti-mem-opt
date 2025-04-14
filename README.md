@@ -89,7 +89,7 @@ A: ZRAM is an implementation of swap partition. When the kernel reclaims memory,
 
 Q: Why does the fork use swapfile and hybrid swap in general, unlike the original module?
 
-A: Even with the disadvantages of swapfile by itself, it is a good fit for having a "fallback" memory. In this case, in situations where the device needs memory, it can allocate less used data in the swapfile. Due to this, hybrid swap is used, even with the limitation of working only on Qualcomm devices because only them have PPR (per-process reclaim), hybrid swap allows the user to reduce swapping costs and storage degradation by up to 28%, which is even higher than ZSWAP itself, which reduces it by only 26%. This generally allows users to use the swapfile as fallback memory, and makes swapping generally less expensive, resulting in a higher throughput device overall.
+A: Even with the disadvantages of swapfile by itself, it is a good fit for having a "fallback" memory. In this case, in situations where the device needs memory, it can allocate less used data in the swapfile. Due to this, hybrid swap is used, even with the limitation of working only on Qualcomm devices because only them have PPR (per-process reclaim), hybrid swap allows the user to reduce swapping costs and storage degradation by up to 28%, which is even higher than ZSWAP itself, which reduces it by only 26%. This generally allows users to use the swapfile as fallback memory, and makes swapping generally less expensive, resulting in a higher throughput device overall. If you want the source, here it is: https://ieeexplore.ieee.org/document/8478216
 
 Q: Which is better, LMKD minfree, LMKD PSI, or SimpleLMK?
 
