@@ -1,6 +1,6 @@
 # qti-mem-opt
 
-Memory management optimization for Android platforms.  
+Memory management optimization for Android platforms. Focused on making Android itself more intelligent, adaptable and responsive to user demand. Respecting its limits and, above all, respecting its user.
 
 ## Features
 - Pure memory management optimization module, not containing other placebo and supporting all mainstream platforms. And most importantly: follow the ideology that free RAM is wasted RAM, and follow the ideology that overused RAM is waste. Be the middle ground and be efficient, meet memory demand, allow for reserves, avoid underutilization and improve overall system memory utilization, avoid waste, overuse and make Android smart enough to adapt to almost any memory situation, if not all
