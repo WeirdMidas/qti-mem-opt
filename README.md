@@ -112,6 +112,10 @@ Q: What is UFFD and why has it reduced ZRAM usage?
 
 A: UFFD is a garbage collector that has been around since Linux 4.4. Its function is to ensure that unused pages are cleaned up. It is not used on all devices because it is complex and can generate additional overhead. However, on current Android devices, the UFFD userspace function is added, allowing for a significant reduction in overhead. The reason ZRAM is used less because of this is because these unused pages would be sent to ZRAM. This is generally more beneficial because it prevents kswapd from working too hard, allowing swapping to be more effective by having "cleaner" pages to use.
 
+Q: Why optimize Android Runtime (ART)?
+
+A: Optimizing the Android runtime allows the system to execute even LMKD better, making it even capable of executing other services such as GC, cache control, etc. Allowing memory management in general to also become more accurate by making it more native to the system.
+
 Q: Why don't you use ZRAM Deduplication?
 
 A: Deduplication by itself is very CPU-intensive, draining a lot of battery and affecting performance in CPU-hungry games. Because of this, I will EITHER leave ZRAM deduplication as an optional (i.e. user-enabled) feature, OR not use it if I can get more effective results than relying on deduplication, it just depends on my focus.
