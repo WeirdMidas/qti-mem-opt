@@ -25,7 +25,7 @@ Memory management optimization for Android platforms. Focused on making Android 
 
 - ARM/ARM64
 - Magisk or KSU
-- Android 10-15
+- Android 12-15
 - 2GB or more of memory, because the module adapts to current values, where the current Android system needs AT LEAST 2GB of RAM to work. So values ​​smaller than 2GB will not be able to use the module for efficiency reasons
 
 ## Installation
