@@ -26,13 +26,14 @@ Memory management optimization for Android platforms. Focused on making Android 
 - ARM/ARM64
 - Magisk or KSU
 - Android 12-15
+- Your device uses LMKD instead of old LMK or simple lmk
 - 2GB or more of memory, because the module adapts to current values, where the current Android system needs AT LEAST 2GB of RAM to work. So values ​​smaller than 2GB will not be able to use the module for efficiency reasons
 
 ## Installation
 - Do not download the repository version, because I am at the beginning of my career as a module creator, avoid using the repository version (that is, one that is not in the releases tab) because I do not know how to update all the files for the repository (I am new to github, sorry)
 - Magisk or KSU, preferably the most updated version
 - Install this module and reboot, open `/sdcard/Android/panel_memcfg.txt` to modify the parameters, such as disabling ZRAM to put a swapfile in its place, activating hybrid swap + swapfile, changing the size and compression algorithm of ZRAM, and this will take effect after reboot
-- Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot.
+- Open `/sdcard/Android/panel_adjshield.txt` and add the package name of the APP that needs to be kept in the background. It will take effect after reboot
 - ZRAM values ​​are based on AOSP ROMs. This means that in turn, the RAM values ​​will be between half of the fixed RAM of your device, such as:
   - 2GB of RAM gets 1GB of ZRAM by default
   - 3GB of RAM gets 1.5GB of ZRAM by default
