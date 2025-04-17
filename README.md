@@ -10,6 +10,7 @@ Memory management optimization for Android platforms. Focused on making Android 
 - Reduce jitters under high memory pressure, adjust the trigger threshold and the kill timeout of lowmemorykiller daemon, and keep the file page cache at a high level
 - Reduce stucks under high memory pressure, reduce the probability of direct memory allocation via higher extra_free_kbytes
 - Disable adaptive lowmemorykiller daemon
+- Optimized IO blocks to remove unused/replaceable features on current Androids and to reduce page thrashing
 - Prohibit kernel memory recycling threads running on the prime core, avoid congesting the main thread that is interacting and reduce energy consumption
 - Reduce swapping costs and unnecessary situations as much as possible. If swapping is occurring, be as efficient as possible and allow above-average throughput for swapping and make the compression rate close or always superior to the ideal value of 2.8x
 - Use the UFFD garbage collector, allowing to reduce the chances of page faults and allowing ZRAM to compress better to an acceptable level, without increasing the cost of swapping
@@ -19,6 +20,8 @@ Memory management optimization for Android platforms. Focused on making Android 
 - Customizable ZRAM size and compression algorithm(needs kernel support), goes from 0GB to 6GB
 - Customizable swapfile size. Going from 0GB to 3GB. But you need hybrid swap active. Where in non-snapdragon phones, the hybrid swap will be just swapfile + zram, while in snapdragon it will be swapfile + zram + ppr
 - SELinux can still be enabled
+- Optimization of system components so that they use memory more efficiently and save energy in the end
+- Reduction of unnecessary buffers to allow the system to use less swapping and have more RAM to be used without relying on swapping, reducing swapping usage in a short run
 
 ## Requirement
 
