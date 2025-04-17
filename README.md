@@ -4,7 +4,7 @@ Memory management optimization for Android platforms. Focused on making Android 
 
 ## Features
 - Pure memory management optimization module, not containing other placebo and supporting all mainstream platforms. And most importantly: follow the ideology that free RAM is wasted RAM, and follow the ideology that overused RAM is waste. Be the middle ground and be efficient, meet memory demand, allow for reserves, avoid underutilization and improve overall system memory utilization, avoid waste, overuse and make Android smart enough to adapt to almost any memory situation, if not all
-; Chances of OOM and Thrashing reduced as much as possible through smarter, scalable management, release, app killing and swapping that respects the limits of themselves, the battery and the end user
+- Chances of OOM and Thrashing reduced as much as possible through smarter, scalable management, release, app killing and swapping that respects the limits of themselves, the battery and the end user
 - Customizable list of protected APPs, preventing them from being killed by Android in-userspace lowmemorykiller
 - Fixed system common files in the file page cache, which significantly reduced the stucks caused by the key cache being swapped out due to page cache fluctuations
 - Avoid stutters and jitters in high-load situations. Avoid micro-lags that occur when the device is using a lot of memory, maintain responsiveness even under pressure
