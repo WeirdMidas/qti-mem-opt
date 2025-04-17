@@ -16,13 +16,13 @@ Memory management optimization for Android platforms. Focused on making Android 
 - Reduce swapping costs and unnecessary situations as much as possible. If swapping is occurring, be as efficient as possible and allow above-average throughput for swapping and make the compression rate close or always superior to the ideal value of 2.8x
 - Use the UFFD garbage collector, allowing to reduce the chances of page faults and allowing ZRAM to compress better to an acceptable level, without increasing the cost of swapping
 - ART optimizations of the Android runtime. In order to design better app execution time, and in turn: a few megabytes of less consumption
+- Optimization of system components so that they use memory more efficiently and save energy in the end
+- Reduction of unnecessary buffers to allow the system to use less swapping and have more RAM to be used without relying on swapping, reducing swapping usage in a short run
 - Introduce Hybrid Swap! A memory management technique that combines swapfile and ZRAM with Qualcomm's PPR. Allowing to increase effective memory by up to 17% with just 512mb of swapfile and with swapping costs reduced by up to 27%, and even better: it prevents storage from suffering, allowing to keep its useful life up to date! However, it is only for phones with snapdragon processors. Credits to: unintellectual-hypothesis @ github
 - Prevent apps from being swapped out or killed too quickly. Allowing browsers like Brave to function even in memory-limited situations
 - Customizable ZRAM size and compression algorithm(needs kernel support), goes from 0GB to 6GB
 - Customizable swapfile size. Going from 0GB to 3GB. But you need hybrid swap active. Where in non-snapdragon phones, the hybrid swap will be just swapfile + zram, while in snapdragon it will be swapfile + zram + ppr
 - SELinux can still be enabled
-- Optimization of system components so that they use memory more efficiently and save energy in the end
-- Reduction of unnecessary buffers to allow the system to use less swapping and have more RAM to be used without relying on swapping, reducing swapping usage in a short run
 
 ## Requirement
 
