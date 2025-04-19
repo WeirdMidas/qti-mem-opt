@@ -29,8 +29,10 @@ Memory management optimization for Android platforms. Focused on making Android 
 - ARM/ARM64
 - Magisk or KSU
 - Android 12-15
-- Your device uses LMKD instead of old LMK or simple lmk
+- Your device uses lmkd instead of old lmk or simple lmk. For now, lmkd minfree is the only compatible one, lmkd psi will still be added in the near future if someone helps me with this
 - 2GB or more of memory, because the module adapts to current values, where the current Android system needs AT LEAST 2GB of RAM to work. So values ​​smaller than 2GB will not be able to use the module for efficiency reasons
+- ZRAM compatibility. You can see it by going to this path: /sys/block/zram0. If it exists, it means that ZRAM is compatible and you are able to use the module to its full potential. (Optional, this is just to ensure that the "scalable swapping" strategy is used to maximize the module's performance.)
+- Don't worry about free RAM, it will be reduced due to the module allowing the system to use it more for caches and derivatives, so initially, it may seem like you have less RAM. But don't worry, as you use apps, the system now more intelligently adapts to demand and uses swapping respecting you and your current needs at the current time
 
 ## Installation
 - Do not download the repository version, because I am at the beginning of my career as a module creator, avoid using the repository version (that is, one that is not in the releases tab) because I do not know how to update all the files for the repository (I am new to github, sorry)
